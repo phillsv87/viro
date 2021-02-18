@@ -34,7 +34,7 @@
 
 class VROARSessioniOS;
 
-class API_AVAILABLE(ios(12.0)) VROARFrameiOS : public VROARFrame {
+class VROARFrameiOS : public VROARFrame {
 public:
     
     VROARFrameiOS(ARFrame *frame, VROViewport viewport, VROCameraOrientation orientation,

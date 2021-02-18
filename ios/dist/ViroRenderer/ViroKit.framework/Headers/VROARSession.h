@@ -89,6 +89,7 @@ enum class VROVideoQuality {
 enum class VROImageTrackingImpl {
     ARCore,
     ARKit,
+    Viro
 };
 
 enum class VROCloudAnchorProvider {
@@ -105,7 +106,9 @@ public:
     VROARSession(VROTrackingType trackingType, VROWorldAlignment worldAlignment) :
         _trackingType(trackingType),
         _worldAlignment(worldAlignment) {
-#if VRO_PLATFORM_IOS
+#if ENABLE_OPENCV
+        _imageTrackingImpl = VROImageTrackingImpl::Viro;
+#elif VRO_PLATFORM_IOS
         _imageTrackingImpl = VROImageTrackingImpl::ARKit;
 #elif VRO_PLATFORM_ANDROID
         _imageTrackingImpl = VROImageTrackingImpl::ARCore;

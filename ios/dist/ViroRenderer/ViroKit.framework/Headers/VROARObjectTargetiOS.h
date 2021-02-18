@@ -31,7 +31,7 @@
 
 @class ARReferenceObject;
 
-class API_AVAILABLE(ios(12.0)) VROARObjectTargetiOS : public VROARObjectTarget {
+class VROARObjectTargetiOS : public VROARObjectTarget {
     
 public:
     VROARObjectTargetiOS(NSURL *localFileUrl);

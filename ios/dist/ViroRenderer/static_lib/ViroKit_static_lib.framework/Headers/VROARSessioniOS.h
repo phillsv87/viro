@@ -41,7 +41,7 @@ class VROVideoTextureCacheOpenGL;
 class VROTrackingHelper;
 @class VROARKitSessionDelegate;
 
-class API_AVAILABLE(ios(12.0)) VROARSessioniOS : public VROARSession, public std::enable_shared_from_this<VROARSessioniOS> {
+class VROARSessioniOS : public VROARSession, public std::enable_shared_from_this<VROARSessioniOS> {
 public:
     
     VROARSessioniOS(VROTrackingType trackingType,
@@ -109,6 +109,19 @@ public:
     void addAnchor(ARAnchor *anchor);
     void updateAnchor(ARAnchor *anchor);
     void removeAnchor(ARAnchor *anchor);
+    
+#if ENABLE_OPENCV
+    // -- Image tracking functions --
+    void setTrackerOutputView(UIImageView *view) {
+        _trackerOutputView = view;
+    }
+
+    void setTrackerOutputText(UITextView *outputText) {
+        _trackerOutputText = outputText;
+    }
+    
+    void outputTextTapped();
+#endif /* ENABLE_OPENCV */
 
 private:
     
@@ -187,6 +200,34 @@ private:
      Update the VROARAnchor with the transforms in the given ARAnchor.
      */
     void updateAnchorFromNative(std::shared_ptr<VROARAnchor> vAnchor, ARAnchor *anchor);
+
+#if ENABLE_OPENCV
+    // -- Image tracking-required stuff --
+    
+    /*
+     Image Tracking Helper.
+     */
+    VROTrackingHelper *_trackingHelper;
+    
+    /*
+     The UIImageView used to display the image tracking output.
+     */
+    UIImageView *_trackerOutputView;
+    
+    /*
+     The UITextView used to display tracking output text.
+     */
+    UITextView *_trackerOutputText;
+    
+    
+    /*
+     The node will be moved according to the results of image tracking.
+     */
+    std::shared_ptr<VRONode> _imageTrackingResultNode;
+    
+    std::shared_ptr<VRONode> _imageResultsContainer;
+
+#endif /* ENABLE_OPENCV */
     
     std::shared_ptr<VROVisionModel> _visionModel;
     
@@ -197,7 +238,7 @@ private:
 /*
  Delegate for ARKit's ARSession.
  */
-API_AVAILABLE(ios(12.0)) @interface VROARKitSessionDelegate : NSObject<ARSessionDelegate> 
+@interface VROARKitSessionDelegate : NSObject<ARSessionDelegate>
 
 - (id)initWithSession:(std::shared_ptr<VROARSessioniOS>)session;
 

@@ -138,7 +138,7 @@ private:
 
 typedef std::vector<std::vector<VROInferredBodyJoint>> VROPoseFrame;
 
-inline VROPoseFrame newPoseFrame() {
+static VROPoseFrame newPoseFrame() {
     return VROPoseFrame(kNumBodyJoints);
 }
 
